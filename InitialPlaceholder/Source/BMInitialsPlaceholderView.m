@@ -144,6 +144,8 @@
                                                              NSParagraphStyleAttributeName : style}];
     
     UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();
+    // recyle graphics context, with out this line memory will leak
+    UIGraphicsEndImageContext();
     
     _cachedVisualRepresentation = outImage;
     [self setNeedsDisplay];
