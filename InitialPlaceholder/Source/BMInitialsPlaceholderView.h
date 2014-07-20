@@ -76,6 +76,6 @@
  EACH property set.  (i.e. this will save upto 3 draw calls if you set all 4 options)
  Safe to pass nil to the circleColor, textColor and font args.
  */
--(void)batchUpdateViewWithInitials:(NSString *)theIntials circleColor:(UIColor *)theCircleColor textColor:(UIColor *)theTextColor font:(UIFont *)theFont;
+-(void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font;
 
 @end

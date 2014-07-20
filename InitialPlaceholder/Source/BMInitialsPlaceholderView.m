@@ -111,12 +111,12 @@
     return _font ? _font : [UIFont boldSystemFontOfSize:16.0];
 }
 
--(void)batchUpdateViewWithInitials:(NSString *)theIntials circleColor:(UIColor *)theCircleColor textColor:(UIColor *)theTextColor font:(UIFont *)theFont{
+-(void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font{
     //Saves up to 3 wasted draws by not calling our custom setters
-    _circleColor = (theCircleColor != nil ? theCircleColor : _circleColor);
-    _textColor = (theTextColor != nil ? theTextColor : _textColor);
-    _font = (theFont != nil ? theFont : _font);
-    _initials = [self truncatedInitials:theIntials];
+    _circleColor = (circleColor != nil ? circleColor : _circleColor);
+    _textColor = (textColor != nil ? textColor : _textColor);
+    _font = (font != nil ? font : _font);
+    _initials = [self truncatedInitials:initials];
     
     //Finally make a draw call
     [self generateCachedVisualRepresentation];
