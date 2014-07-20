@@ -44,9 +44,9 @@
         self.userInteractionEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
         
-        self.circleColor = [UIColor lightGrayColor];
-        self.font = [UIFont boldSystemFontOfSize:16.0];
-        self.textColor = [UIColor whiteColor];
+        _circleColor = [UIColor lightGrayColor];
+        _font = [UIFont boldSystemFontOfSize:16.0];
+        _textColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -57,13 +57,21 @@
     }
 }
 
+#pragma mark - Truncate
+-(NSString *)truncatedInitials:(NSString *)initials{
+    if ([initials length] > 2) {
+        initials = [initials substringToIndex:2];
+    }
+    return initials;
+}
+
 #pragma mark - Setters / Getters
 - (void)setInitials:(NSString *)initialialsToDraw {
-    if ([initialialsToDraw length] > 2) {
-        initialialsToDraw = [initialialsToDraw substringToIndex:2];
+    initialialsToDraw = [self truncatedInitials:initialialsToDraw];
+    if(_initials != initialialsToDraw){
+        _initials = initialialsToDraw;
+        [self generateCachedVisualRepresentation];
     }
-    _initials = initialialsToDraw;
-    [self generateCachedVisualRepresentation];
 }
 
 - (NSString *)initials {
@@ -71,8 +79,10 @@
 }
 
 - (void)setTextColor:(UIColor *)textColor {
-    _textColor = textColor;
-    [self generateCachedVisualRepresentation];
+    if(_textColor != textColor){
+        _textColor = textColor;
+        [self generateCachedVisualRepresentation];
+    }
 }
 
 - (UIColor *)textColor {
@@ -80,8 +90,10 @@
 }
 
 - (void)setCircleColor:(UIColor *)circleColor {
-    _circleColor = circleColor;
-    [self generateCachedVisualRepresentation];
+    if(_circleColor != circleColor){
+        _circleColor = circleColor;
+        [self generateCachedVisualRepresentation];
+    }
 }
 
 - (UIColor *)circleColor {
@@ -89,12 +101,25 @@
 }
 
 - (void)setFont:(UIFont *)font {
-    _font = font;
-    [self generateCachedVisualRepresentation];
+    if(_font != font){
+        _font = font;
+        [self generateCachedVisualRepresentation];
+    }
 }
 
 - (UIFont *)font {
     return _font ? _font : [UIFont boldSystemFontOfSize:16.0];
+}
+
+-(void)batchUpdateViewWithInitials:(NSString *)theIntials circleColor:(UIColor *)theCircleColor textColor:(UIColor *)theTextColor font:(UIFont *)theFont{
+    //Saves up to 3 wasted draws by not calling our custom setters
+    _circleColor = (theCircleColor != nil ? theCircleColor : _circleColor);
+    _textColor = (theTextColor != nil ? theTextColor : _textColor);
+    _font = (theFont != nil ? theFont : _font);
+    _initials = [self truncatedInitials:theIntials];
+    
+    //Finally make a draw call
+    [self generateCachedVisualRepresentation];
 }
 
 - (void)generateCachedVisualRepresentation {
