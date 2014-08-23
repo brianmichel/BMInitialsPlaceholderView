@@ -70,4 +70,12 @@
  undefined results)
  */
 - (instancetype)initWithDiameter:(CGFloat)diameter;
+
+/**
+ Performant ways to set all of your options without redrawing the view on
+ EACH property set.  (i.e. this will save upto 3 draw calls if you set all 4 options)
+ Safe to pass nil to the circleColor, textColor and font args.
+ */
+-(void)batchUpdateViewWithInitials:(NSString *)initials circleColor:(UIColor *)circleColor textColor:(UIColor *)textColor font:(UIFont *)font;
+
 @end

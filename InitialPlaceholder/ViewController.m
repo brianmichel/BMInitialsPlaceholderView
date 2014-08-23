@@ -58,9 +58,16 @@ const CGFloat kViewControllerCellHeight = 50.0;
     UIFont *font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0];
     CGFloat placeholderHW = kViewControllerCellHeight - 15;
     BMInitialsPlaceholderView *placeholder = [[BMInitialsPlaceholderView alloc] initWithDiameter:placeholderHW];
-    placeholder.font = font;
-    placeholder.initials = [self initialStringForPersonString:person];
-    placeholder.circleColor = [self circleColorForIndexPath:indexPath];
+    //Option 1: Set each property separately.  This leads to wasted draws.
+    //placeholder.font = font;
+    //placeholder.initials = [self initialStringForPersonString:person];
+    //placeholder.circleColor = [self circleColorForIndexPath:indexPath];
+    
+    //Option 2: Batch update the intials view setting all 4 options at once.  This will save up to 3 draw calls.
+    [placeholder batchUpdateViewWithInitials:[self initialStringForPersonString:person]
+                                 circleColor:[self circleColorForIndexPath:indexPath]
+                                   textColor:[UIColor whiteColor]
+                                        font:font];
     
     cell.textLabel.font = font;
     cell.textLabel.text = person;
